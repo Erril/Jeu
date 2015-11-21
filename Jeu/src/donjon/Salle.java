@@ -29,6 +29,9 @@ public abstract class Salle {
 		yPere=y;	
 		rang=0;
 	}
+	public boolean equals(Salle s){
+		return (x==s.getX() && y==s.getY());
+	}
 	
 	/*         haut
 	 *          0

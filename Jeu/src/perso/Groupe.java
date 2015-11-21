@@ -72,7 +72,7 @@ public class Groupe {
 			while(groupie.get(cpt).getSpeed()>p.getSpeed() && cpt<groupie.size()){
 				cpt++;//trouver la position de de l'element
 			}
-			if (cpt!=groupie.size()){//si ce n'est pas le dernier
+			if (cpt<groupie.size()){//si ce n'est pas le dernier
 				groupie.add(cpt,p);
 			}
 			else{//si c'est le dernier on l'ajoute a la fin (exception si cpt=size())

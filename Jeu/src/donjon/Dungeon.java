@@ -2,9 +2,6 @@ package donjon;
 
 import java.util.Random;
 
-import monster.Monster;
-import monsterfac.DemonWarriorFac;
-import monsterfac.MonsterFactory;
 
 public class Dungeon {
 
@@ -21,7 +18,7 @@ public class Dungeon {
 				donj[i][j] = new SalleVide(i,j);
 			}
 		}
-	
+		ouvrirAlea();
 	}
 	
 	public Salle getSalleAt(int x,int y){
