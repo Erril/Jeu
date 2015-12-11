@@ -86,6 +86,12 @@ public abstract class Salle {
 		this.xPere = sal.getX();
 		this.yPere = sal.getY();
 	}
+	public void setCoord(int x, int y) {
+		this.x=x;
+		this.y=y;
+		xPere=x;
+		yPere=y;
+	}
 	public int getyPere() {
 		return yPere;
 	}

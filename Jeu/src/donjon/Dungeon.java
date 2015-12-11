@@ -1,24 +1,73 @@
 package donjon;
 
 import java.util.Random;
+import java.util.Stack;
 
 
 public class Dungeon {
 
 	private Salle[][] donj;
 	private int taille;
-	
+	private int nbSallesVides;
+	private int nbMalusBonus;
+	private int nbEntree;
+	private int nbSortie;
 	
 	public Dungeon(int n){
 		taille=n;
+		nbSallesVides = n*n/2;
+		nbMalusBonus = (n*n/2)-2;
+		nbEntree=1;
+		nbSortie=1;
 		donj = new Salle[n][n];
+		Stack<Salle> stack=new Stack<Salle>();
+		for (int k=0;k<16;k++){
+			stack.push(creaSalleRandom());
+		}
 		for(int i=0;i<taille;i++){
 			for(int j=0;j<taille;j++){
 				
-				donj[i][j] = new SalleVide(i,j);
+				donj[i][j] = stack.pop();
+				donj[i][j].setCoord(i, j);;
 			}
 		}
-		ouvrirAlea();
+		
+	}
+	public Salle creaSalleRandom(){
+		Random rand = new Random();
+		int  type = rand.nextInt(5);
+		Salle res=new SalleVide();
+		boolean fin= false;
+		while (!fin){
+			switch(type){
+				case 0:	if(nbEntree>0){
+							res = new Entree();
+							fin=true;
+						}
+						break;
+				case 1:	if(nbSortie>0){
+							res = new Sortie();
+							fin=true;
+						}
+						break;
+				case 2:	if(nbMalusBonus>0){
+							res = new SallePiege();
+							fin=true;
+						}
+						break;
+				case 3:	if(nbMalusBonus>0){
+							res = new SalleBonus();
+							fin=true;
+						}
+						break;
+				case 4:	if(nbSallesVides>0){
+							fin=true;
+						}			
+						break;
+						
+			}
+			type = rand.nextInt(5);
+		}
 	}
 	
 	public Salle getSalleAt(int x,int y){
@@ -218,6 +267,7 @@ public class Dungeon {
 		int cpt=0;
 		while(cpt<taille*taille-1){
 			cpt+=ouvrirAlea();
+			System.out.println(cpt);
 		}
 	}
 
@@ -278,8 +328,9 @@ public class Dungeon {
 	public static void main(String[] args) {
 		Dungeon d = new Dungeon(4);
 		//d.afficherDonj();
-		System.out.println();
+		System.out.println("ee");
 		d.creerLaby();
+		System.out.println("eee");
 		//d.union(0, 1, 0, 0);
 		//d.union(0, 1, 2, 2);
 		//d.union(3, 3, 2, 2);
