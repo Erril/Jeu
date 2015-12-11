@@ -8,6 +8,6 @@ public class SalleVide extends Salle {
 		super();
 	}
 	public void nom() {
-		System.out.print("vide ");
+		System.out.print("v");
 	}
 }

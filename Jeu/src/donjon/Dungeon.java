@@ -15,8 +15,8 @@ public class Dungeon {
 	
 	public Dungeon(int n){
 		taille=n;
-		nbSallesVides = n*n/2;
-		nbMalusBonus = (n*n/2)-2;
+		nbSallesVides = n*n/2;// la moitier des salles seront vide(ie pas de piege/bonus) mais pourront contenir un coffre ou un groupe de monstre
+		nbMalusBonus = (n*n/2)-2;// le reste des salles auront un malus/bonus et pourront contenir comme une salle vide
 		nbEntree=1;
 		nbSortie=1;
 		donj = new Salle[n][n];
@@ -276,7 +276,7 @@ public class Dungeon {
 		}
 	}
 
-	public void dessinerDonj(){
+	public void dessinerDonjType(){
 		
 		
 		
@@ -298,16 +298,89 @@ public class Dungeon {
 			System.out.println();
 			for(int j=0 ; j < taille ; j++){		
 				if (donj[i][j].getAcces()[1] && donj[i][j].getAcces()[3]){
-					System.out.print("         ");
+					System.out.print("    ");
+					donj[i][j].nom();
+					System.out.print("    ");
 				}
 				else if(donj[i][j].getAcces()[1]){
-					System.out.print("-        ");
+					System.out.print("-   ");
+					donj[i][j].nom();
+					System.out.print("    ");
 				}
 				else if(donj[i][j].getAcces()[3]){
-					System.out.print("        -");
+					System.out.print("    ");
+					donj[i][j].nom();
+					System.out.print("   -");
 				}
 				else{
-					System.out.print("-       -");
+					System.out.print("-   ");
+					donj[i][j].nom();
+					System.out.print("   -");
+				}
+					
+			}
+			
+			System.out.println();
+			for(int k=0 ; k < taille ; k++){			
+					System.out.print("-       -");	
+			}
+			System.out.println();
+			for(int k=0 ; k < taille ; k++){			
+				if (donj[i][k].getAcces()[2]){
+					System.out.print("- -   - -");
+				}
+				else{
+					System.out.print("- - - - -");
+				}	
+			}
+			
+		}
+		System.out.println();
+		
+	}
+	public void dessinerDonj(){
+		Salle s=new SalleVide(taille+1,taille+1);
+		dessinerDonjPos(s);
+	}
+	
+	public void dessinerDonjPos(Salle s){
+		int x =s.getX();
+		int y=s.getY();
+		for(int i=0; i<taille;i++ ){
+			System.out.println();
+			for(int k=0 ; k < taille ; k++){
+				if (donj[i][k].getAcces()[0]){
+					System.out.print("- -   - -");
+				}
+				else{
+					System.out.print("- - - - -");
+				}		
+			}
+			System.out.println();
+			for(int k=0 ; k < taille ; k++){			
+				System.out.print("-       -");	
+			}
+			System.out.println();
+			for(int j=0 ; j < taille ; j++){
+				String pos=" ";
+				if(i==x && j==y){
+					pos="x";
+				}
+				if (donj[i][j].getAcces()[1] && donj[i][j].getAcces()[3]){
+					System.out.print("    "+pos);
+					System.out.print("    ");
+				}
+				else if(donj[i][j].getAcces()[1]){
+					System.out.print("-   "+pos);
+					System.out.print("    ");
+				}
+				else if(donj[i][j].getAcces()[3]){
+					System.out.print("    "+pos);
+					System.out.print("   -");
+				}
+				else{
+					System.out.print("-   "+pos);
+					System.out.print("   -");
 				}
 					
 			}
@@ -332,13 +405,15 @@ public class Dungeon {
 	}
 	public static void main(String[] args) {
 		Dungeon d = new Dungeon(4);
-		//d.afficherDonj();
-		d.creerLaby();
+		d.dessinerDonjType();//dessinne le donjon et donne le type de la salle v:vide b: bonus e:entrée s: sortie p:piege
+		d.creerLaby();//ouvre les porte entre les salles pour former un labyrinthe
+		Salle s=new SalleVide(2,2);//la salle qui sert pour le test du dessinpos
 		//d.union(0, 1, 0, 0);
 		//d.union(0, 1, 2, 2);
 		//d.union(3, 3, 2, 2);
-		d.afficherType();
-		d.dessinerDonj();
+		
+		d.dessinerDonj();// dessinne le donjon sans rien de special
+		//d.dessinerDonjPos(s);//dessinne le donjon en indiquant la position demander (la salle courante est dans Jeu et non pas dans donjon)
 		//d.afficherDonjLienDroit();
 		System.out.println();
 		//d.afficherDonjLienBas();
