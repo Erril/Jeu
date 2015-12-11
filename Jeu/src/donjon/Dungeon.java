@@ -68,6 +68,7 @@ public class Dungeon {
 			}
 			type = rand.nextInt(5);
 		}
+		return res;
 	}
 	
 	public Salle getSalleAt(int x,int y){
