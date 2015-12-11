@@ -43,25 +43,30 @@ public class Dungeon {
 				case 0:	if(nbEntree>0){
 							res = new Entree();
 							fin=true;
+							nbEntree--;
 						}
 						break;
 				case 1:	if(nbSortie>0){
 							res = new Sortie();
 							fin=true;
+							nbSortie--;
 						}
 						break;
 				case 2:	if(nbMalusBonus>0){
 							res = new SallePiege();
 							fin=true;
+							nbMalusBonus--;
 						}
 						break;
 				case 3:	if(nbMalusBonus>0){
 							res = new SalleBonus();
 							fin=true;
+							nbMalusBonus--;
 						}
 						break;
 				case 4:	if(nbSallesVides>0){
 							fin=true;
+							nbSallesVides--;
 						}			
 						break;
 						
@@ -168,11 +173,11 @@ public class Dungeon {
 			System.out.println();
 		}	
 	}
-	public void afficherDonjLienGauche(){
+	public void afficherType(){
 
 		for(int i=0; i<taille;i++ ){
 			for(int j=0 ; j < taille ; j++){
-				System.out.print(donj[i][j].getAcces()[3]+" ");
+				donj[i][j].nom();
 			}
 			System.out.println();
 		}	
@@ -268,7 +273,6 @@ public class Dungeon {
 		int cpt=0;
 		while(cpt<taille*taille-1){
 			cpt+=ouvrirAlea();
-			System.out.println(cpt);
 		}
 	}
 
@@ -329,16 +333,15 @@ public class Dungeon {
 	public static void main(String[] args) {
 		Dungeon d = new Dungeon(4);
 		//d.afficherDonj();
-		System.out.println("ee");
 		d.creerLaby();
-		System.out.println("eee");
 		//d.union(0, 1, 0, 0);
 		//d.union(0, 1, 2, 2);
 		//d.union(3, 3, 2, 2);
+		d.afficherType();
 		d.dessinerDonj();
-		d.afficherDonjLienDroit();
+		//d.afficherDonjLienDroit();
 		System.out.println();
-		d.afficherDonjLienBas();
+		//d.afficherDonjLienBas();
 		
 	}
 

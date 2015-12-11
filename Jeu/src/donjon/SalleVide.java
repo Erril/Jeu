@@ -7,4 +7,7 @@ public class SalleVide extends Salle {
 	public SalleVide(){
 		super();
 	}
+	public void nom() {
+		System.out.print("vide ");
+	}
 }

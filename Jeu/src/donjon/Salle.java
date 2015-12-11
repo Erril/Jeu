@@ -107,4 +107,7 @@ public abstract class Salle {
 	public int getY() {
 		return y;
 	}
+	public void nom() {
+		
+	}
 }
