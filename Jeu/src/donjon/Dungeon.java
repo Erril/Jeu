@@ -21,14 +21,14 @@ public class Dungeon {
 		nbSortie=1;
 		donj = new Salle[n][n];
 		Stack<Salle> stack=new Stack<Salle>();
-		for (int k=0;k<16;k++){
+		for (int k=0;k<n*n;k++){//creation des n*n salles de type aleatoire dans une pile
 			stack.push(creaSalleRandom());
 		}
 		for(int i=0;i<taille;i++){
 			for(int j=0;j<taille;j++){
 				
-				donj[i][j] = stack.pop();
-				donj[i][j].setCoord(i, j);;
+				donj[i][j] = stack.pop();//depilement des salle dans le donjon
+				donj[i][j].setCoord(i, j);
 			}
 		}
 		
@@ -403,15 +403,48 @@ public class Dungeon {
 		System.out.println();
 		
 	}
+	public int[][] attributDist(Salle s){
+		int[][] dist= new int[taille][taille];
+		for(int i=0;i<taille;i++){
+			for(int j=0;j<taille;j++){
+				dist[i][j] = taille*taille+1;
+			}
+		}
+		attributDistance(s, dist,0);
+		return dist;
+	}
+	public void attributDistance(Salle s, int[][] dist,int val){
+		if (dist[s.getX()][s.getY()]==taille*taille+1){
+			dist[s.getX()][s.getY()]=val;
+			if (s.getAccesH()){
+				attributDistance(donj[s.getX()-1][s.getY()], dist, val+1);
+			}
+			if (s.getAccesD()){
+				attributDistance(donj[s.getX()][s.getY()+1], dist, val+1);
+			}
+			if (s.getAccesB()){
+				attributDistance(donj[s.getX()+1][s.getY()], dist, val+1);
+			}
+			if (s.getAccesG()){
+				attributDistance(donj[s.getX()][s.getY()-1], dist, val+1);
+			}
+		}
+	}
 	public static void main(String[] args) {
 		Dungeon d = new Dungeon(4);
 		d.dessinerDonjType();//dessinne le donjon et donne le type de la salle v:vide b: bonus e:entrée s: sortie p:piege
 		d.creerLaby();//ouvre les porte entre les salles pour former un labyrinthe
-		Salle s=new SalleVide(2,2);//la salle qui sert pour le test du dessinpos
+		Salle s=d.getSalleAt(2,2);//la salle qui sert pour les tests
 		//d.union(0, 1, 0, 0);
 		//d.union(0, 1, 2, 2);
 		//d.union(3, 3, 2, 2);
-		
+		int[][] dist= d.attributDist(s);//pour le calcul de la distance par rapport a la position actuelle (si jamais des groupe de monstres se dirige vers le joueur)
+		for(int i=0;i<4;i++){
+			for(int j=0;j<4;j++){
+				System.out.print(dist[i][j]+" ");
+			}
+			System.out.println();
+		}
 		d.dessinerDonj();// dessinne le donjon sans rien de special
 		//d.dessinerDonjPos(s);//dessinne le donjon en indiquant la position demander (la salle courante est dans Jeu et non pas dans donjon)
 		//d.afficherDonjLienDroit();
